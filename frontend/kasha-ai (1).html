@@ -799,7 +799,7 @@ async function sendKasha(){
   showTyping();
 
   try {
-    const r = await fetch('http://localhost:3000/chat', {
+    const r = await fetch('https://kasha-ai.onrender.com/chat', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({message: txt, history: history})

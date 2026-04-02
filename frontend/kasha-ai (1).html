@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasha AI — Akili Bandia ya Afrika Mashariki</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-900: #04342C;
+  --green-800: #085041;
+  --green-700: #0F6E56;
+  --green-600: #1D9E75;
+  --green-400: #5DCAA5;
+  --green-200: #9FE1CB;
+  --green-100: #E1F5EE;
+  --sand: #F5F0E8;
+  --sand-dark: #E8E0D0;
+  --ink: #12110F;
+  --ink-mid: #3A3830;
+  --ink-light: #7A7668;
+  --white: #FDFCFA;
+  --accent: #D4A843;
+  --accent-light: #F5E6B8;
+  --font-head: 'Sora', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-head);
+  background: var(--sand);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 64px;
+  background: rgba(245,240,232,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(29,158,117,0.15);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 20px; font-weight: 700; color: var(--green-800);
+  text-decoration: none; letter-spacing: -0.5px;
+}
+.nav-logo-mark {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: var(--green-700); display: flex; align-items: center;
+  justify-content: center; color: #fff; font-size: 16px; font-weight: 700;
+}
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a {
+  font-size: 14px; color: var(--ink-mid); text-decoration: none;
+  font-weight: 500; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--green-700); }
+.nav-cta {
+  padding: 9px 22px; border-radius: 8px;
+  background: var(--green-700); color: #fff !important;
+  font-size: 14px; font-weight: 600; text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--green-800) !important; color: #fff; }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 100px 48px 80px;
+  position: relative; overflow: hidden;
+}
+.hero-bg-pattern {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(29,158,117,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 85% 20%, rgba(212,168,67,0.07) 0%, transparent 40%);
+}
+.hero-grid-lines {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(29,158,117,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29,158,117,0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.hero-inner {
+  max-width: 1200px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 20px;
+  background: var(--green-100); border: 1px solid var(--green-200);
+  font-size: 12px; font-weight: 600; color: var(--green-700);
+  letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 24px;
+}
+.hero-badge-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--green-600);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+.hero-h1 {
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 700; line-height: 1.08;
+  letter-spacing: -2px; color: var(--ink);
+  margin-bottom: 8px;
+}
+.hero-h1 .accent { color: var(--green-600); }
+.hero-h1 .swahili {
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 400; color: var(--ink-light);
+  letter-spacing: -0.5px; display: block;
+  font-style: italic; margin-top: 6px;
+}
+.hero-desc {
+  font-size: 17px; line-height: 1.7; color: var(--ink-mid);
+  margin: 24px 0 36px; max-width: 480px; font-weight: 400;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  padding: 14px 28px; border-radius: 10px;
+  background: var(--green-700); color: #fff;
+  font-size: 15px; font-weight: 600; text-decoration: none;
+  border: none; cursor: pointer; font-family: var(--font-head);
+  transition: background 0.2s, transform 0.15s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { background: var(--green-800); transform: translateY(-1px); }
+.btn-secondary {
+  padding: 14px 28px; border-radius: 10px;
+  background: transparent; color: var(--ink-mid);
+  font-size: 15px; font-weight: 600; text-decoration: none;
+  border: 1.5px solid var(--sand-dark); cursor: pointer;
+  font-family: var(--font-head);
+  transition: border-color 0.2s, color 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-secondary:hover { border-color: var(--green-400); color: var(--green-700); }
+.hero-stats {
+  display: flex; gap: 32px; margin-top: 40px;
+  padding-top: 32px; border-top: 1px solid var(--sand-dark);
+}
+.hero-stat-num {
+  font-size: 28px; font-weight: 700; color: var(--green-700); letter-spacing: -1px;
+}
+.hero-stat-label { font-size: 12px; color: var(--ink-light); margin-top: 2px; font-weight: 500; }
+
+/* ── CHAT PREVIEW ── */
+.hero-chat {
+  background: var(--white); border-radius: 20px;
+  border: 1px solid var(--sand-dark);
+  overflow: hidden;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06);
+}
+.chat-topbar {
+  background: var(--green-800); padding: 14px 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.chat-topbar-avatar {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--green-600); display: flex; align-items: center;
+  justify-content: center; color: #fff; font-size: 14px; font-weight: 700;
+}
+.chat-topbar-info { flex: 1; }
+.chat-topbar-name { font-size: 14px; font-weight: 600; color: #fff; }
+.chat-topbar-status { font-size: 11px; color: var(--green-200); }
+.chat-online { display: flex; align-items: center; gap: 4px; }
+.chat-online-dot { width: 6px; height: 6px; border-radius: 50%; background: #5DCAA5; }
+
+.chat-body { padding: 20px 18px; display: flex; flex-direction: column; gap: 14px; background: var(--sand); }
+.chat-msg { display: flex; flex-direction: column; gap: 4px; max-width: 85%; }
+.chat-msg.ai { align-self: flex-start; }
+.chat-msg.user { align-self: flex-end; align-items: flex-end; }
+.chat-bubble {
+  padding: 10px 14px; border-radius: 14px; font-size: 13px; line-height: 1.6;
+}
+.chat-msg.ai .chat-bubble {
+  background: var(--white); border: 1px solid var(--sand-dark);
+  border-bottom-left-radius: 4px; color: var(--ink);
+}
+.chat-msg.user .chat-bubble {
+  background: var(--green-700); color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.chat-time { font-size: 10px; color: var(--ink-light); padding: 0 4px; font-family: var(--font-mono); }
+.chat-input-row {
+  padding: 14px 18px; border-top: 1px solid var(--sand-dark);
+  display: flex; gap: 8px; align-items: center; background: var(--white);
+}
+.chat-input-fake {
+  flex: 1; height: 36px; border-radius: 8px;
+  background: var(--sand); border: 1px solid var(--sand-dark);
+  display: flex; align-items: center; padding: 0 12px;
+  font-size: 13px; color: var(--ink-light);
+}
+.chat-send-fake {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--green-700); display: flex;
+  align-items: center; justify-content: center;
+}
+.chat-send-fake svg { width: 16px; height: 16px; fill: white; }
+
+/* ── TOPICS ── */
+.chat-tabs {
+  display: flex; gap: 6px; padding: 12px 18px 0;
+  overflow-x: auto; scrollbar-width: none;
+  background: var(--white);
+}
+.chat-tab {
+  padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  background: var(--sand); border: 1px solid var(--sand-dark); color: var(--ink-light);
+  white-space: nowrap;
+}
+.chat-tab.on { background: var(--green-100); border-color: var(--green-400); color: var(--green-800); }
+
+/* ── FEATURES ── */
+#features {
+  padding: 100px 48px;
+  background: var(--white);
+}
+.section-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--green-600); margin-bottom: 12px; font-family: var(--font-mono);
+}
+.section-h2 {
+  font-size: clamp(28px, 3.5vw, 44px); font-weight: 700;
+  letter-spacing: -1.5px; line-height: 1.1; color: var(--ink);
+  max-width: 600px; margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 16px; color: var(--ink-light); max-width: 520px; line-height: 1.7;
+}
+.features-grid {
+  max-width: 1200px; margin: 60px auto 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.feature-card {
+  padding: 28px; border-radius: 16px;
+  border: 1px solid var(--sand-dark); background: var(--sand);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.feature-card:hover { border-color: var(--green-400); transform: translateY(-3px); }
+.feature-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--green-100); display: flex; align-items: center;
+  justify-content: center; margin-bottom: 18px;
+}
+.feature-icon svg { width: 22px; height: 22px; }
+.feature-title { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.3px; }
+.feature-desc { font-size: 14px; color: var(--ink-light); line-height: 1.7; }
+
+/* ── CHAT APP SECTION ── */
+#chat-section {
+  padding: 100px 48px;
+  background: var(--green-900);
+  position: relative; overflow: hidden;
+}
+.chat-section-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle at 80% 50%, rgba(29,158,117,0.15) 0%, transparent 50%);
+}
+.chat-section-inner { max-width: 1200px; margin: 0 auto; }
+.chat-section-header { margin-bottom: 48px; }
+.chat-section-header .section-tag { color: var(--green-400); }
+.chat-section-header .section-h2 { color: #fff; }
+.chat-section-header .section-sub { color: var(--green-200); }
+
+.full-chat-app {
+  background: var(--white); border-radius: 20px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  max-width: 780px; margin: 0 auto;
+}
+.fca-header {
+  background: var(--green-800); padding: 0 20px; height: 58px;
+  display: flex; align-items: center; gap: 12px;
+}
+.fca-logo { width: 34px; height: 34px; border-radius: 9px; background: var(--green-600); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 15px; }
+.fca-name { font-size: 15px; font-weight: 700; color: #fff; }
+.fca-sub { font-size: 11px; color: var(--green-200); }
+.fca-flex { flex: 1; }
+.fca-status { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--green-300); }
+.fca-dot { width: 7px; height: 7px; border-radius: 50%; background: #5DCAA5; }
+
+.fca-tabs {
+  display: flex; gap: 0; padding: 0 20px;
+  border-bottom: 1px solid var(--sand-dark); background: var(--white);
+  overflow-x: auto; scrollbar-width: none;
+}
+.fca-tab {
+  padding: 10px 14px; font-size: 12px; font-weight: 600; cursor: pointer;
+  color: var(--ink-light); border-bottom: 2px solid transparent;
+  white-space: nowrap; font-family: var(--font-head);
+  background: transparent; border-top: none; border-left: none; border-right: none;
+  transition: color 0.2s;
+}
+.fca-tab.active { color: var(--green-700); border-bottom-color: var(--green-700); }
+.fca-tab:hover { color: var(--green-600); }
+
+.fca-messages {
+  height: 360px; overflow-y: auto; padding: 20px;
+  display: flex; flex-direction: column; gap: 14px;
+  background: var(--sand);
+}
+.fmsg { display: flex; flex-direction: column; gap: 4px; }
+.fmsg.user { align-items: flex-end; }
+.fmsg.ai { align-items: flex-start; }
+.fmsg-row { display: flex; align-items: flex-end; gap: 8px; max-width: 80%; }
+.fmsg.user .fmsg-row { flex-direction: row-reverse; }
+.fav { width: 28px; height: 28px; border-radius: 8px; background: var(--green-600); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.fbubble { padding: 10px 14px; border-radius: 14px; font-size: 13.5px; line-height: 1.6; }
+.fmsg.ai .fbubble { background: var(--white); border: 1px solid var(--sand-dark); border-bottom-left-radius: 4px; color: var(--ink); }
+.fmsg.user .fbubble { background: var(--green-700); color: #fff; border-bottom-right-radius: 4px; }
+.fmeta { font-size: 10px; color: var(--ink-light); padding: 0 4px; font-family: var(--font-mono); }
+
+.fca-input-area {
+  padding: 14px 20px; border-top: 1px solid var(--sand-dark);
+  display: flex; gap: 10px; align-items: flex-end; background: var(--white);
+}
+#fca-text {
+  flex: 1; resize: none; border: 1px solid var(--sand-dark); border-radius: 10px;
+  padding: 10px 14px; font-size: 13.5px; font-family: var(--font-head);
+  background: var(--sand); color: var(--ink);
+  min-height: 42px; max-height: 100px; outline: none; line-height: 1.5;
+}
+#fca-text:focus { border-color: var(--green-600); background: var(--white); }
+#fca-send {
+  width: 42px; height: 42px; border-radius: 10px;
+  background: var(--green-700); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+#fca-send:hover { background: var(--green-800); }
+#fca-send:disabled { background: var(--sand-dark); cursor: not-allowed; }
+#fca-send svg { width: 18px; height: 18px; fill: #fff; }
+
+.fca-chips {
+  padding: 10px 20px 14px; display: flex; flex-wrap: wrap; gap: 6px; background: var(--white);
+  border-top: 1px solid var(--sand-dark);
+}
+.fca-chip {
+  padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  border: 1px solid var(--green-400); color: var(--green-800);
+  background: transparent; cursor: pointer; font-family: var(--font-head);
+  transition: background 0.15s;
+}
+.fca-chip:hover { background: var(--green-100); }
+
+.kdot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-light); display: inline-block; animation: kbounce 1.2s infinite; }
+.kdot:nth-child(2){animation-delay:.2s;} .kdot:nth-child(3){animation-delay:.4s;}
+@keyframes kbounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+
+/* ── USE CASES ── */
+#usecases { padding: 100px 48px; background: var(--sand); }
+.usecases-inner { max-width: 1200px; margin: 0 auto; }
+.usecases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 60px; }
+.usecase-card {
+  padding: 32px; border-radius: 16px; background: var(--white);
+  border: 1px solid var(--sand-dark);
+  display: flex; flex-direction: column; gap: 16px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.usecase-card:hover { transform: translateY(-4px); border-color: var(--green-400); }
+.usecase-num { font-family: var(--font-mono); font-size: 11px; color: var(--green-600); font-weight: 700; letter-spacing: 1px; }
+.usecase-title { font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.5px; }
+.usecase-desc { font-size: 14px; color: var(--ink-light); line-height: 1.7; }
+.usecase-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--green-100); color: var(--green-800); }
+
+/* ── COUNTRIES ── */
+#countries { padding: 80px 48px; background: var(--white); text-align: center; }
+.countries-inner { max-width: 900px; margin: 0 auto; }
+.countries-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 40px; }
+.country-pill {
+  padding: 10px 20px; border-radius: 30px; font-size: 14px; font-weight: 600;
+  border: 1.5px solid var(--sand-dark); color: var(--ink-mid);
+  display: flex; align-items: center; gap: 8px;
+  background: var(--sand); transition: all 0.2s;
+}
+.country-pill:hover { border-color: var(--green-600); color: var(--green-700); background: var(--green-100); }
+.country-flag { font-size: 20px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); color: #fff;
+  padding: 60px 48px 32px;
+}
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 48px; }
+.footer-brand-name { font-size: 22px; font-weight: 700; margin-bottom: 12px; color: #fff; letter-spacing: -0.5px; }
+.footer-brand-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 280px; }
+.footer-col-title { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 16px; font-family: var(--font-mono); }
+.footer-links { display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--green-400); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+.footer-copy { font-size: 13px; color: rgba(255,255,255,0.3); }
+.footer-copy span { color: var(--green-400); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  #hero { padding: 90px 20px 60px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-chat { display: none; }
+  .features-grid { grid-template-columns: 1fr; }
+  #features, #chat-section, #usecases, #countries { padding: 60px 20px; }
+  .usecases-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; gap: 32px; }
+  footer { padding: 40px 20px 24px; }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+.hero-inner > * { animation: fadeUp 0.6s ease forwards; }
+.hero-inner > *:nth-child(2) { animation-delay: 0.1s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">K</div>
+    Kasha AI
+  </a>
+  <div class="nav-links">
+    <a href="#features">Vipengele</a>
+    <a href="#usecases">Matumizi</a>
+    <a href="#chat-section">Jaribu</a>
+    <a href="#countries">Nchi</a>
+    <a href="#chat-section" class="nav-cta">Anza Bure</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        Imezaliwa Afrika Mashariki
+      </div>
+      <h1 class="hero-h1">
+        Akili Bandia<br>
+        kwa <span class="accent">Afrika</span><br>
+        Mashariki
+        <span class="swahili">The AI that speaks your language.</span>
+      </h1>
+      <p class="hero-desc">
+        Kasha AI ni msaidizi wa kwanza wa akili bandia kwa Afrika Mashariki — 
+        anayeelewa Kiswahili, tamaduni zetu, na mahitaji yetu ya kila siku.
+      </p>
+      <div class="hero-actions">
+        <a href="#chat-section" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Anza Mazungumzo
+        </a>
+        <a href="#features" class="btn-secondary">
+          Jifunza Zaidi →
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">7+</div>
+          <div class="hero-stat-label">Nchi za EA</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">100%</div>
+          <div class="hero-stat-label">Kiswahili</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">24/7</div>
+          <div class="hero-stat-label">Mtandaoni</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-chat">
+        <div class="chat-topbar">
+          <div class="chat-topbar-avatar">K</div>
+          <div class="chat-topbar-info">
+            <div class="chat-topbar-name">Kasha AI</div>
+            <div class="chat-topbar-status">
+              <div class="chat-online"><div class="chat-online-dot"></div> Mtandaoni sasa</div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-tabs">
+          <div class="chat-tab on">Mazungumzo</div>
+          <div class="chat-tab">Biashara</div>
+          <div class="chat-tab">Afya</div>
+          <div class="chat-tab">Serikali</div>
+        </div>
+        <div class="chat-body">
+          <div class="chat-msg ai">
+            <div class="chat-bubble">Habari! Mimi ni Kasha AI. Ninaweza kukusaidia na nini leo? 🌍</div>
+            <div class="chat-time">09:14</div>
+          </div>
+          <div class="chat-msg user">
+            <div class="chat-bubble">Niambie kuhusu fursa za biashara Dar es Salaam</div>
+            <div class="chat-time">09:15</div>
+          </div>
+          <div class="chat-msg ai">
+            <div class="chat-bubble">Dar es Salaam ina fursa nyingi sana! Sekta kuu ni teknolojia, ujenzi, biashara ya bahari, na kilimo cha mazao. Nikusaidie na ipi? 💼</div>
+            <div class="chat-time">09:15</div>
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <div class="chat-input-fake">Andika ujumbe wako...</div>
+          <div class="chat-send-fake"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-tag">// Vipengele</div>
+    <h2 class="section-h2">Kimeundwa kwa ajili ya Afrika Mashariki</h2>
+    <p class="section-sub">Kasha AI si tu chatbot ya kawaida — ni msaidizi anayeelewa mazingira, lugha, na tamaduni za Afrika Mashariki.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="feature-title">Kiswahili asili</div>
+        <div class="feature-desc">Anaongea Kiswahili safi — si tafsiri, ni lugha ya kwanza. Anaelewa maneno ya mitaani, msemo, na tamaduni zetu.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="feature-title">Maarifa ya kikanda</div>
+        <div class="feature-desc">Ana habari za Tanzania, Kenya, Uganda, Rwanda, na nchi zote za Afrika Mashariki — sheria, biashara, afya, na zaidi.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="feature-title">Kwa biashara na serikali</div>
+        <div class="feature-desc">Msaada wa makampuni, taasisi za serikali, benki, hospitali — mfumo unaoweza kuunganishwa na mifumo yoyote.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="feature-title">Salama na ya kuaminika</div>
+        <div class="feature-desc">Data yako inalindwa. Hatuuzi taarifa zako. Kasha AI inafuata kanuni za faragha za kimataifa.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="feature-title">Haraka na muda wote</div>
+        <div class="feature-desc">Inajibu kwa sekunde chache. Inapatikana saa 24, siku 7 — hata usiku wa manane au likizo.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="feature-title">Kwa kila mtu</div>
+        <div class="feature-desc">Mkulima, daktari, mwanasheria, mwanafunzi, mfanyabiashara — Kasha AI ina jibu kwa kila mmoja wenu.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE CHAT -->
+<section id="chat-section">
+  <div class="chat-section-bg"></div>
+  <div class="chat-section-inner">
+    <div class="chat-section-header">
+      <div class="section-tag">// Jaribu Sasa</div>
+      <h2 class="section-h2">Zungumza na Kasha AI</h2>
+      <p class="section-sub">Hakuna usajili unaohitajika. Anza mazungumzo yako sasa hivi — kwa Kiswahili au Kiingereza.</p>
+    </div>
+
+    <div class="full-chat-app">
+      <div class="fca-header">
+        <div class="fca-logo">K</div>
+        <div class="fca-flex">
+          <div class="fca-name">Kasha AI</div>
+          <div class="fca-sub">Msaidizi wa Afrika Mashariki</div>
+        </div>
+        <div class="fca-status"><div class="fca-dot"></div> Mtandaoni</div>
+      </div>
+
+      <div class="fca-tabs">
+        <button class="fca-tab active" onclick="switchTab(this,'general')">Mazungumzo</button>
+        <button class="fca-tab" onclick="switchTab(this,'biashara')">Biashara</button>
+        <button class="fca-tab" onclick="switchTab(this,'afya')">Afya</button>
+        <button class="fca-tab" onclick="switchTab(this,'elimu')">Elimu</button>
+        <button class="fca-tab" onclick="switchTab(this,'kilimo')">Kilimo</button>
+        <button class="fca-tab" onclick="switchTab(this,'serikali')">Serikali</button>
+      </div>
+
+      <div class="fca-messages" id="fca-msgs">
+        <div class="fmsg ai">
+          <div class="fmsg-row">
+            <div class="fav">K</div>
+            <div class="fbubble">
+              <strong>Karibu Kasha AI!</strong> 🌍<br><br>
+              Mimi ni msaidizi wako wa akili bandia — nilizaliwa kwa ajili ya Afrika Mashariki. Ninaweza kukusaidia na biashara, afya, elimu, kilimo, teknolojia, serikali, na mengi zaidi.<br><br>
+              Unaweza kuniandikia kwa Kiswahili au Kiingereza. Niambie — ninaweza kukusaidia na nini leo?
+            </div>
+          </div>
+          <div class="fmeta">Kasha AI · Sasa hivi</div>
+        </div>
+      </div>
+
+      <div class="fca-chips">
+        <button class="fca-chip" onclick="quickMsg('Fursa za biashara Tanzania ni zipi?')">Fursa za biashara</button>
+        <button class="fca-chip" onclick="quickMsg('Jinsi ya kupata mkopo wa biashara Kenya?')">Mikopo ya biashara</button>
+        <button class="fca-chip" onclick="quickMsg('Dalili za malaria ni zipi na jinsi ya kuzuia?')">Afya: Malaria</button>
+        <button class="fca-chip" onclick="quickMsg('What are the best universities in East Africa?')">Top universities</button>
+        <button class="fca-chip" onclick="quickMsg('Jinsi ya kuanza kilimo cha mboga?')">Kilimo cha mboga</button>
+      </div>
+
+      <div class="fca-input-area">
+        <textarea id="fca-text" placeholder="Andika ujumbe wako hapa... / Type your message here..." rows="1"></textarea>
+        <button id="fca-send" onclick="sendKasha()">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section id="usecases">
+  <div class="usecases-inner">
+    <div class="section-tag">// Matumizi</div>
+    <h2 class="section-h2">Kasha AI inafanya kazi wapi?</h2>
+    <p class="section-sub">Kutoka hospitali hadi mashamba — Kasha AI iko kila mahali inapohitajika.</p>
+    <div class="usecases-grid">
+      <div class="usecase-card">
+        <div class="usecase-num">01</div>
+        <div class="usecase-title">Serikali za Mitaa</div>
+        <div class="usecase-desc">Kasha AI inaweza kuwa msaidizi wa raia — kujibu maswali kuhusu leseni, ushuru, huduma za afya, na taratibu za serikali bila foleni ndefu.</div>
+        <div class="usecase-tag">Citizen Services</div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-num">02</div>
+        <div class="usecase-title">Makampuni na Biashara</div>
+        <div class="usecase-desc">Msaada wa wateja kwa Kiswahili, uchambuzi wa data, na msaada wa kuandika barua, ripoti, na mipango ya biashara.</div>
+        <div class="usecase-tag">Business Tools</div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-num">03</div>
+        <div class="usecase-title">Hospitali na Kliniki</div>
+        <div class="usecase-desc">Msaada wa awali kwa wagonjwa, taarifa za dawa, na maelezo ya magonjwa kwa lugha rahisi inayoeleweka.</div>
+        <div class="usecase-tag">Healthcare</div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-num">04</div>
+        <div class="usecase-title">Shule na Vyuo</div>
+        <div class="usecase-desc">Msaidizi wa masomo, maelezo ya kina, na mazoezi ya mitihani — kwa wanafunzi wa shule ya msingi hadi chuo kikuu.</div>
+        <div class="usecase-tag">Education</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTRIES -->
+<section id="countries">
+  <div class="countries-inner">
+    <div class="section-tag" style="text-align:center;">// Nchi Tunazohudumia</div>
+    <h2 class="section-h2" style="margin:0 auto;text-align:center;">Afrika Mashariki yote</h2>
+    <div class="countries-row">
+      <div class="country-pill"><span class="country-flag">🇹🇿</span> Tanzania</div>
+      <div class="country-pill"><span class="country-flag">🇰🇪</span> Kenya</div>
+      <div class="country-pill"><span class="country-flag">🇺🇬</span> Uganda</div>
+      <div class="country-pill"><span class="country-flag">🇷🇼</span> Rwanda</div>
+      <div class="country-pill"><span class="country-flag">🇧🇮</span> Burundi</div>
+      <div class="country-pill"><span class="country-flag">🇪🇹</span> Ethiopia</div>
+      <div class="country-pill"><span class="country-flag">🇸🇸</span> South Sudan</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">Kasha AI</div>
+        <div class="footer-brand-desc">Msaidizi wa kwanza wa akili bandia uliotengenezwa kwa ajili ya Afrika Mashariki — anayeongea Kiswahili, anaelewa tamaduni zetu.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Viungo</div>
+        <div class="footer-links">
+          <a href="#features">Vipengele</a>
+          <a href="#usecases">Matumizi</a>
+          <a href="#chat-section">Jaribu Bure</a>
+          <a href="#countries">Nchi</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Mawasiliano</div>
+        <div class="footer-links">
+          <a href="#"><span class="__cf_email__" data-cfemail="fa93949c95ba919b89929b9b93d4999597">[email&#160;protected]</span></a>
+          <a href="#">Dar es Salaam, TZ</a>
+          <a href="#">Faragha</a>
+          <a href="#">Masharti</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <span>Kasha AI</span> · Imetengenezwa Afrika Mashariki 🌍</div>
+      <div class="footer-copy">Powered by Claude AI</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const fcaMsgs = document.getElementById('fca-msgs');
+const fcaText = document.getElementById('fca-text');
+const fcaSend = document.getElementById('fca-send');
+const history = [];
+let currentTopic = 'general';
+
+const topics = {
+  general:'General helpful conversation about East Africa and daily life.',
+  biashara:'Business, entrepreneurship, trade, and commerce in East Africa.',
+  afya:'Health, medicine, wellness, and healthcare in East Africa.',
+  elimu:'Education, schools, universities, and learning in East Africa.',
+  kilimo:'Agriculture, farming, crops, and food production in East Africa.',
+  serikali:'Government services, public administration, and civic matters in East Africa.'
+};
+
+const SYS = () => `You are Kasha AI — a proud, helpful AI assistant built specifically for East Africa.
+Personality: warm, friendly, respectful, reflecting East African ubuntu values.
+Knowledge focus: ${topics[currentTopic]}
+You know Tanzania, Kenya, Uganda, Rwanda, Burundi, Ethiopia, and the wider region deeply.
+
+Language rules:
+- Default: respond in Swahili (Kiswahili)
+- If user writes in English: respond in English
+- Be concise — under 120 words unless asked for detail
+- Use natural Swahili, not stiff/formal language
+Never break character. You are Kasha AI.`;
+
+function switchTab(el, topic){
+  document.querySelectorAll('.fca-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  currentTopic = topic;
+}
+
+function getTime(){return new Date().toLocaleTimeString('sw-TZ',{hour:'2-digit',minute:'2-digit'});}
+
+function addMsg(text, role){
+  const d = document.createElement('div');
+  d.className = `fmsg ${role}`;
+  const row = document.createElement('div');
+  row.className = 'fmsg-row';
+  if(role==='ai'){const av=document.createElement('div');av.className='fav';av.textContent='K';row.appendChild(av);}
+  const b = document.createElement('div');
+  b.className='fbubble';
+  b.innerHTML=text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  row.appendChild(b);
+  const m=document.createElement('div');
+  m.className='fmeta';
+  m.textContent=role==='ai'?`Kasha AI · ${getTime()}`:`Wewe · ${getTime()}`;
+  d.appendChild(row);d.appendChild(m);
+  fcaMsgs.appendChild(d);
+  fcaMsgs.scrollTop=fcaMsgs.scrollHeight;
+}
+
+function showTyping(){
+  const d=document.createElement('div');d.className='fmsg ai';d.id='ftyping';
+  d.innerHTML=`<div class="fmsg-row"><div class="fav">K</div><div class="fbubble" style="display:flex;gap:5px;padding:14px 16px;"><div class="kdot"></div><div class="kdot"></div><div class="kdot"></div></div></div>`;
+  fcaMsgs.appendChild(d);fcaMsgs.scrollTop=fcaMsgs.scrollHeight;
+}
+
+function removeTyping(){const t=document.getElementById('ftyping');if(t)t.remove();}
+
+function quickMsg(txt){fcaText.value=txt;sendKasha();}
+
+async function sendKasha(){
+  const txt = fcaText.value.trim();
+  if(!txt) return;
+
+  fcaText.value = '';
+  fcaText.style.height = 'auto';
+  fcaSend.disabled = true;
+  addMsg(txt, 'user');
+  history.push({role: 'user', parts: [{text: txt}]});
+  showTyping();
+
+  try {
+    const r = await fetch('http://localhost:3000/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: txt, history: history})
+    });
+
+    const data = await r.json();
+    removeTyping();
+
+    if(data.error){
+      addMsg('Hitilafu ya API key. Angalia key yako na ujaribu tena.', 'ai');
+      history.pop();
+      fcaSend.disabled = false;
+      return;
+    }
+
+    const reply = data.reply || 'Samahani, hitilafu imetokea. Tafadhali jaribu tena.';
+    addMsg(reply, 'ai');
+    history.push({role: 'model', parts: [{text: reply}]});
+  } catch(e) {
+    removeTyping();
+    addMsg('Error: Check if "node server.js" is running in your terminal!', 'ai');
+    history.pop();
+  }
+  fcaSend.disabled = false;
+}
+
+fcaText.addEventListener('keydown', e => {
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    sendKasha();
+  }
+});
+
+fcaText.addEventListener('input', () => {
+  fcaText.style.height = 'auto';
+  fcaText.style.height = Math.min(fcaText.scrollHeight, 100) + 'px';
+});
+</script>
+</body>
+</html>

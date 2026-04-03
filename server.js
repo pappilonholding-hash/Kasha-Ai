@@ -28,7 +28,7 @@ app.post("/chat", async (req, res) => {
       body: JSON.stringify({
         model: "llama-3.3-70b-versatile",
         messages: [
-          { role: "system", content: "Wewe ni Kasha AI, msaidizi wa akili bandia kwa Afrika Mashariki. Jibu kwa Kiswahili au Kiingereza kulingana na lugha ya mtumiaji. Saidia na biashara, afya, elimu, kilimo, teknolojia, na serikali." },
+          { role: "system", content: req.body.systemPrompt || "Wewe ni Kasha AI, msaidizi wa akili bandia kwa Afrika Mashariki..." },
           ...messages
         ],
         max_tokens: 1000
